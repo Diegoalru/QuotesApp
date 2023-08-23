@@ -1,4 +1,4 @@
-package com.darssolutions.examplemvvm.view
+package com.darssolutions.examplemvvm.ui.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.darssolutions.examplemvvm.databinding.FragmentQuoteBinding
-import com.darssolutions.examplemvvm.viewmodel.QuoteViewModel
+import com.darssolutions.examplemvvm.ui.viewmodel.QuoteViewModel
 
 class QuoteView : Fragment() {
 
@@ -22,18 +22,27 @@ class QuoteView : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentQuoteBinding.inflate(inflater, container, false)
-        binding.viewContainer.setOnClickListener { viewModel.randomQuote() }
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.apply {
-            viewModel.quoteModel.observe(viewLifecycleOwner) { currentQuote ->
-                binding.txQuote.text = currentQuote.quote
-                binding.txAuthor.text = currentQuote.author
-            }
+        viewModel.onCreate()
+
+        viewModel.isLoading.observe(viewLifecycleOwner) {
+            binding.progressBar.visibility = if (it) View.VISIBLE else View.GONE
         }
+
+        viewModel.hasData.observe(viewLifecycleOwner) {
+            binding.txQuote.visibility = if (it) View.VISIBLE else View.GONE
+            binding.txAuthor.visibility = if (it) View.VISIBLE else View.GONE
+            binding.noDataMessage.visibility = if (!it) View.VISIBLE else View.GONE
+
+            binding.txQuote.text = viewModel.quote.value?.quote ?: ""
+            binding.txAuthor.text = viewModel.quote.value?.author ?: ""
+        }
+
+        binding.viewContainer.setOnClickListener { viewModel.randomQuote() }
     }
 }
