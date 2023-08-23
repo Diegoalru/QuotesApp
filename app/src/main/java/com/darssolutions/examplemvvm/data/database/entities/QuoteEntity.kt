@@ -5,6 +5,13 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.darssolutions.examplemvvm.domain.model.Quote
 
+/**
+ * Entidad que representa una cita en la base de datos local.
+ *
+ * @param id Identificador único de la cita.
+ * @param quote Texto de la cita.
+ * @param author Autor de la cita.
+ */
 @Entity(tableName = "Quotes")
 data class QuoteEntity (
     @PrimaryKey(autoGenerate = true)
@@ -13,4 +20,9 @@ data class QuoteEntity (
     @ColumnInfo(name="author") val author: String
 )
 
+/**
+ * Convierte un objeto Quote del dominio en una entidad QuoteEntity para la base de datos.
+ *
+ * @return Entidad QuoteEntity convertida.
+ */
 fun Quote.toDatabase() = QuoteEntity(quote = quote, author = author)

@@ -10,6 +10,9 @@ import com.darssolutions.examplemvvm.databinding.FragmentQuoteBinding
 import com.darssolutions.examplemvvm.ui.viewmodel.QuoteViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * Fragmento que muestra citas en la interfaz de usuario.
+ */
 @AndroidEntryPoint
 class QuoteView : Fragment() {
 

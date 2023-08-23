@@ -14,13 +14,19 @@ import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import javax.inject.Inject
 
+/**
+ * ViewModel encargado de gestionar la lógica de presentación y manipulación
+ * de datos relacionados con las citas.
+ *
+ * @param getQuotesUseCase Caso de uso para obtener citas desde una fuente de datos.
+ * @param getRandomQuoteUseCase Caso de uso para obtener una cita aleatoria.
+ */
 @HiltViewModel
 class QuoteViewModel @Inject constructor(
     private val getQuotesUseCase: GetQuotesUseCase,
     private val getRandomQuoteUseCase: GetRandomQuoteUseCase
 ) : ViewModel() {
 
-    //#region Variables
     /**
      * Almacena la cita actual que será mostrada en pantalla.
      */
@@ -40,8 +46,10 @@ class QuoteViewModel @Inject constructor(
         get() = _quote
     val isLoading: MutableLiveData<Boolean>
         get() = _isLoading
-    //#endregion
 
+    /**
+     * Inicializa la obtención de citas al crearse la instancia del ViewModel.
+     */
     fun onCreate() {
         viewModelScope.launch {
             isLoading.value = true
@@ -61,16 +69,18 @@ class QuoteViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Obtiene y establece una cita aleatoria, gestionando el estado de carga.
+     */
     fun randomQuote() {
         viewModelScope.launch {
             _isLoading.value = true
-            _quote.value = getRandomQuoteUseCase()
+            _quote.value = getRandomQuoteUseCase() ?: _quote.value // Si no hay cita, se mantiene la actual.
             _isLoading.value = false
         }
     }
 
-    companion object
-    {
+    companion object {
         private const val TAG = "[QuoteViewModel]"
     }
 }
