@@ -1,12 +1,12 @@
 package com.darssolutions.examplemvvm.domain
 
-import com.darssolutions.examplemvvm.data.model.QuoteModel
-import com.darssolutions.examplemvvm.data.model.QuoteProvider
+import com.darssolutions.examplemvvm.data.QuoteRepository
+import com.darssolutions.examplemvvm.domain.model.Quote
 import javax.inject.Inject
 
-class GetRandomQuoteUseCase @Inject constructor(private val quoteProvider: QuoteProvider) {
-    operator fun invoke(): QuoteModel? {
-        val quotes = quoteProvider.quotes
+class GetRandomQuoteUseCase @Inject constructor(private val repository: QuoteRepository) {
+    suspend operator fun invoke(): Quote? {
+        val quotes = repository.getQuotesFromDB()
 
         if (quotes.isNotEmpty()) {
             return quotes.random()
