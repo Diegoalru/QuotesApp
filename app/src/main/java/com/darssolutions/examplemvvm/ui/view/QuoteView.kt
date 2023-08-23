@@ -8,7 +8,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.darssolutions.examplemvvm.databinding.FragmentQuoteBinding
 import com.darssolutions.examplemvvm.ui.viewmodel.QuoteViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class QuoteView : Fragment() {
 
     private var _binding: FragmentQuoteBinding? = null

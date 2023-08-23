@@ -9,16 +9,20 @@ import androidx.lifecycle.viewModelScope
 import com.darssolutions.examplemvvm.data.model.QuoteModel
 import com.darssolutions.examplemvvm.domain.GetQuotesUseCase
 import com.darssolutions.examplemvvm.domain.GetRandomQuoteUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
+import javax.inject.Inject
 
-class QuoteViewModel : ViewModel() {
+@HiltViewModel
+class QuoteViewModel @Inject constructor(
+    private val getQuotesUseCase: GetQuotesUseCase,
+    private val getRandomQuoteUseCase: GetRandomQuoteUseCase
+) : ViewModel() {
 
     //#region Variables
     private val _quote = MutableLiveData<QuoteModel?>()
     private val _isLoading = MutableLiveData<Boolean>()
-    private val getQuotesUseCase = GetQuotesUseCase()
-    private val getRandomQuoteUseCase = GetRandomQuoteUseCase()
     val hasData: LiveData<Boolean> = quote.map { it != null }
 
     val quote: MutableLiveData<QuoteModel?>
