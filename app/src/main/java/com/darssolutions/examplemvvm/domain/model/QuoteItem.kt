@@ -9,18 +9,18 @@ import com.darssolutions.examplemvvm.data.model.QuoteModel
  * @param quote Texto de la cita.
  * @param author Autor de la cita.
  */
-data class Quote(val quote: String, val author: String)
+data class QuoteItem(val quote: String, val author: String)
 
 /**
- * Convierte un objeto QuoteModel del módulo de datos a un objeto Quote en el dominio.
+ * Convierte un objeto QuoteModel del módulo de datos a un objeto QuoteItem en el dominio.
  *
- * @return Objeto Quote convertido.
+ * @return Objeto QuoteItem convertido.
  */
-fun QuoteModel.toDomain() = Quote(quote, author)
+fun QuoteModel.toDomain() = QuoteItem(quote, author)
 
 /**
- * Convierte un objeto QuoteEntity del módulo de datos a un objeto Quote en el dominio.
+ * Convierte un objeto QuoteEntity del módulo de datos a un objeto QuoteItem en el dominio.
  *
- * @return Objeto Quote convertido.
+ * @return Objeto QuoteItem convertido.
  */
-fun QuoteEntity.toDomain() = Quote(quote, author)
+fun QuoteEntity.toDomain() = QuoteItem(quote, author)

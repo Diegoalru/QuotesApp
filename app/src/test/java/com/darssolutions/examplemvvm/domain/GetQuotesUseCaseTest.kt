@@ -2,7 +2,7 @@ package com.darssolutions.examplemvvm.domain
 
 import com.darssolutions.examplemvvm.data.QuoteRepository
 import com.darssolutions.examplemvvm.data.database.entities.toDatabase
-import com.darssolutions.examplemvvm.domain.model.Quote
+import com.darssolutions.examplemvvm.domain.model.QuoteItem
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -39,7 +39,7 @@ class GetQuotesUseCaseTest {
     fun `when invoke getQuotesUseCase and something is returned from the API`() = runBlocking {
         // Given
         val fakeQuotes = listOf(
-            Quote(
+            QuoteItem(
                 quote = "Test quote",
                 author = "Test author"
             )

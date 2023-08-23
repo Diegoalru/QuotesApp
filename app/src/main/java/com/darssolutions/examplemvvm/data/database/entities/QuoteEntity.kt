@@ -3,7 +3,7 @@ package com.darssolutions.examplemvvm.data.database.entities
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.darssolutions.examplemvvm.domain.model.Quote
+import com.darssolutions.examplemvvm.domain.model.QuoteItem
 
 /**
  * Entidad que representa una cita en la base de datos local.
@@ -25,4 +25,4 @@ data class QuoteEntity (
  *
  * @return Entidad QuoteEntity convertida.
  */
-fun Quote.toDatabase() = QuoteEntity(quote = quote, author = author)
+fun QuoteItem.toDatabase() = QuoteEntity(quote = quote, author = author)

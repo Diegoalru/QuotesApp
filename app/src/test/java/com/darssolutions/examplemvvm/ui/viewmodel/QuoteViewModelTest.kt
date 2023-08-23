@@ -4,7 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.darssolutions.examplemvvm.data.QuoteRepository
 import com.darssolutions.examplemvvm.domain.GetQuotesUseCase
 import com.darssolutions.examplemvvm.domain.GetRandomQuoteUseCase
-import com.darssolutions.examplemvvm.domain.model.Quote
+import com.darssolutions.examplemvvm.domain.model.QuoteItem
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -68,7 +68,7 @@ class QuoteViewModelTest {
     @Test
     fun `when viewModel is created and set the quote`() = runTest {
         // Given
-        val quoteList = listOf(Quote("quote", "author"))
+        val quoteList = listOf(QuoteItem("quote", "author"))
         coEvery { getQuotesUseCase() } returns quoteList
 
         // When
@@ -95,7 +95,7 @@ class QuoteViewModelTest {
     @Test
     fun `when randomQuote is called and change the quote`() = runTest {
         // Given
-        val quote = Quote("quote", "author")
+        val quote = QuoteItem("quote", "author")
         coEvery { getRandomQuoteUseCase() } returns quote
 
         // When
@@ -110,7 +110,7 @@ class QuoteViewModelTest {
     @Test
     fun `if randomQuoteUseCase return null keep the last value`() = runTest {
         // Given
-        val quote = Quote("quote", "author")
+        val quote = QuoteItem("quote", "author")
         coEvery { getRandomQuoteUseCase() } returns quote
 
         // When
