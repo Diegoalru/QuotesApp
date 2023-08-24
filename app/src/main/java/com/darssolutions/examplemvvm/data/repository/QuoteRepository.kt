@@ -1,8 +1,8 @@
-package com.darssolutions.examplemvvm.data
+package com.darssolutions.examplemvvm.data.repository
 
 import com.darssolutions.examplemvvm.data.database.dao.QuoteDao
 import com.darssolutions.examplemvvm.data.database.entities.QuoteEntity
-import com.darssolutions.examplemvvm.data.network.QuoteService
+import com.darssolutions.examplemvvm.data.network.api.QuoteService
 import com.darssolutions.examplemvvm.domain.model.QuoteItem
 import com.darssolutions.examplemvvm.domain.model.toDomain
 import javax.inject.Inject

@@ -1,9 +1,9 @@
 package com.darssolutions.examplemvvm.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.darssolutions.examplemvvm.data.QuoteRepository
-import com.darssolutions.examplemvvm.domain.GetQuotesUseCase
-import com.darssolutions.examplemvvm.domain.GetRandomQuoteUseCase
+import com.darssolutions.examplemvvm.data.repository.QuoteRepository
+import com.darssolutions.examplemvvm.domain.usecases.GetQuotesUseCase
+import com.darssolutions.examplemvvm.domain.usecases.GetRandomQuoteUseCase
 import com.darssolutions.examplemvvm.domain.model.QuoteItem
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery

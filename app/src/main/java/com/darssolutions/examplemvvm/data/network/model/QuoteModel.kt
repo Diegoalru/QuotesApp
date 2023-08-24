@@ -1,4 +1,4 @@
-package com.darssolutions.examplemvvm.data.model
+package com.darssolutions.examplemvvm.data.network.model
 
 import com.google.gson.annotations.SerializedName
 

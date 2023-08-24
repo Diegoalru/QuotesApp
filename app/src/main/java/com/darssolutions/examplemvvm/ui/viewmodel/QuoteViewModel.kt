@@ -6,9 +6,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
-import com.darssolutions.examplemvvm.domain.GetQuotesUseCase
-import com.darssolutions.examplemvvm.domain.GetRandomQuoteUseCase
 import com.darssolutions.examplemvvm.domain.model.QuoteItem
+import com.darssolutions.examplemvvm.domain.usecases.GetQuotesUseCase
+import com.darssolutions.examplemvvm.domain.usecases.GetRandomQuoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
@@ -73,7 +73,8 @@ class QuoteViewModel @Inject constructor(
     fun randomQuote() {
         viewModelScope.launch {
             _isLoading.value = true
-            _quote.value = getRandomQuoteUseCase() ?: _quote.value // Si no hay cita, se mantiene la actual.
+            _quote.value =
+                getRandomQuoteUseCase() ?: _quote.value // Si no hay cita, se mantiene la actual.
             _isLoading.value = false
         }
     }

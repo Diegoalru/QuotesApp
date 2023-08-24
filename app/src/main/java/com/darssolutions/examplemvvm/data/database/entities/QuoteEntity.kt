@@ -13,11 +13,11 @@ import com.darssolutions.examplemvvm.domain.model.QuoteItem
  * @param author Autor de la cita.
  */
 @Entity(tableName = "Quotes")
-data class QuoteEntity (
+data class QuoteEntity(
     @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name="id") val id: Int = 0,
-    @ColumnInfo(name="quote") val quote: String,
-    @ColumnInfo(name="author") val author: String
+    @ColumnInfo(name = "id") val id: Int = 0,
+    @ColumnInfo(name = "quote") val quote: String,
+    @ColumnInfo(name = "author") val author: String
 )
 
 /**

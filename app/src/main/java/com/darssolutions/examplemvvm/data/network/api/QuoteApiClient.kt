@@ -1,6 +1,6 @@
-package com.darssolutions.examplemvvm.data.network
+package com.darssolutions.examplemvvm.data.network.api
 
-import com.darssolutions.examplemvvm.data.model.QuoteModel
+import com.darssolutions.examplemvvm.data.network.model.QuoteModel
 import retrofit2.Response
 import retrofit2.http.GET
 

@@ -1,6 +1,6 @@
 package com.darssolutions.examplemvvm.di
 
-import com.darssolutions.examplemvvm.data.network.QuoteApiClient
+import com.darssolutions.examplemvvm.data.network.api.QuoteApiClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,7 +16,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
 
-    private const val BASE_URL: String = "https://drawsomething-59328-default-rtdb.europe-west1.firebasedatabase.app/"
+    private const val BASE_URL: String =
+        "https://drawsomething-59328-default-rtdb.europe-west1.firebasedatabase.app/"
 
     /**
      * Proporciona una instancia de Retrofit configurada con la URL base y convertidores.

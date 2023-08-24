@@ -1,7 +1,7 @@
-package com.darssolutions.examplemvvm.domain
+package com.darssolutions.examplemvvm.domain.usecases
 
-import com.darssolutions.examplemvvm.data.QuoteRepository
 import com.darssolutions.examplemvvm.data.database.entities.toDatabase
+import com.darssolutions.examplemvvm.data.repository.QuoteRepository
 import com.darssolutions.examplemvvm.domain.model.QuoteItem
 import javax.inject.Inject
 

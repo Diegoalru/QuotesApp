@@ -1,7 +1,7 @@
 package com.darssolutions.examplemvvm.domain.model
 
 import com.darssolutions.examplemvvm.data.database.entities.QuoteEntity
-import com.darssolutions.examplemvvm.data.model.QuoteModel
+import com.darssolutions.examplemvvm.data.network.model.QuoteModel
 
 /**
  * Clase de modelo que representa una cita en el dominio de la aplicación.

@@ -1,8 +1,9 @@
 package com.darssolutions.examplemvvm.domain
 
-import com.darssolutions.examplemvvm.data.QuoteRepository
+import com.darssolutions.examplemvvm.data.repository.QuoteRepository
 import com.darssolutions.examplemvvm.data.database.entities.toDatabase
 import com.darssolutions.examplemvvm.domain.model.QuoteItem
+import com.darssolutions.examplemvvm.domain.usecases.GetQuotesUseCase
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify

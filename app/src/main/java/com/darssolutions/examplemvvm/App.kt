@@ -4,7 +4,7 @@ import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 
 /**
- * Clase de aplicación base para la aplicación MVVM Example.
+ * Clase de aplicación base para la aplicación.
  */
 @HiltAndroidApp
-class MvvmExampleApp : Application()
+class App : Application()

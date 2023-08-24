@@ -41,9 +41,6 @@ android {
     buildFeatures {
         viewBinding = true
     }
-    kapt {
-        correctErrorTypes = true
-    }
 }
 
 dependencies {
@@ -78,7 +75,7 @@ dependencies {
 
     // Dagger Hilt
     implementation("com.google.dagger:hilt-android:2.47")
-    kapt("com.google.dagger:hilt-compiler:2.47")
+    ksp("com.google.dagger:hilt-compiler:2.47")
 
     // Room
     implementation("androidx.room:room-runtime:2.5.2")
