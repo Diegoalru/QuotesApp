@@ -19,6 +19,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        ksp {
+            arg("room.schemaLocation", "$projectDir/schemas")
+        }
     }
 
     buildTypes {
@@ -45,49 +49,69 @@ android {
 
 dependencies {
 
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    val coreKtxVersion = "1.13.1"
+    val appCompatVersion = "1.7.0"
+    val materialVersion = "1.12.0"
+    val constraintLayoutVersion = "2.1.4"
+    val lifecycleVersion = "2.8.3"
+    val fragmentKtxVersion = "1.8.1"
+    val navigationVersion = "2.7.7"
+    val activityKtxVersion = "1.9.0"
+    val retrofitVersion = "2.11.0"
+    val coroutinesVersion = "1.8.1"
+    val hiltVersion = "2.47"
+    val roomVersion = "2.5.2"
+    val junitVersion = "4.13.2"
+    val mockkVersion = "1.13.12"
+    val coroutinesTestVersion = "1.8.1"
+    val coreTestingVersion = "2.2.0"
+    val junitExtVersion = "1.2.1"
+    val espressoCoreVersion = "3.6.1"
+    val fragmentTestingVersion = "1.8.1"
+
+    implementation("androidx.core:core-ktx:$coreKtxVersion")
+    implementation("androidx.appcompat:appcompat:$appCompatVersion")
+    implementation("com.google.android.material:material:$materialVersion")
+    implementation("androidx.constraintlayout:constraintlayout:$constraintLayoutVersion")
 
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
 
     // LiveData
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.1")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
 
     // Fragment
-    implementation("androidx.fragment:fragment-ktx:1.6.1")
+    implementation("androidx.fragment:fragment-ktx:$fragmentKtxVersion")
 
     // Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
+    implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
 
     // Activity
-    implementation("androidx.activity:activity-ktx:1.7.2")
+    implementation("androidx.activity:activity-ktx:$activityKtxVersion")
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
+    implementation("com.squareup.retrofit2:converter-gson:$retrofitVersion")
 
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion")
 
     // Dagger Hilt
-    implementation("com.google.dagger:hilt-android:2.47")
-    ksp("com.google.dagger:hilt-compiler:2.47")
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
+    ksp("com.google.dagger:hilt-compiler:$hiltVersion")
 
     // Room
-    implementation("androidx.room:room-runtime:2.5.2")
-    implementation("androidx.room:room-ktx:2.5.2")
-    ksp("androidx.room:room-compiler:2.5.2")
+    implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
+    ksp("androidx.room:room-compiler:$roomVersion")
 
-    testImplementation("junit:junit:4.13.2")
-    testImplementation("io.mockk:mockk:1.12.0")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
-    testImplementation("androidx.arch.core:core-testing:2.2.0")
+    testImplementation("junit:junit:$junitVersion")
+    testImplementation("io.mockk:mockk:$mockkVersion")
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTestVersion")
+    testImplementation("androidx.arch.core:core-testing:$coreTestingVersion")
 
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.fragment:fragment-testing:1.6.1")
+    androidTestImplementation("androidx.test.ext:junit:$junitExtVersion")
+    androidTestImplementation("androidx.test.espresso:espresso-core:$espressoCoreVersion")
+    androidTestImplementation("androidx.fragment:fragment-testing:$fragmentTestingVersion")
 }
