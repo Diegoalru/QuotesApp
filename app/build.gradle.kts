@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
     id("io.gitlab.arturbosch.detekt")
@@ -44,30 +44,48 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 }
 
 dependencies {
 
+    val composeBomVersion = "2024.09.00"
     val coreKtxVersion = "1.13.1"
     val appCompatVersion = "1.7.0"
     val materialVersion = "1.12.0"
     val constraintLayoutVersion = "2.1.4"
-    val lifecycleVersion = "2.8.3"
-    val fragmentKtxVersion = "1.8.1"
-    val navigationVersion = "2.7.7"
-    val activityKtxVersion = "1.9.0"
+    val lifecycleVersion = "2.8.5"
+    val fragmentKtxVersion = "1.8.3"
+    val navigationVersion = "2.8.0"
+    val activityKtxVersion = "1.9.2"
     val retrofitVersion = "2.11.0"
     val coroutinesVersion = "1.8.1"
-    val hiltVersion = "2.47"
-    val roomVersion = "2.5.2"
+    val hiltVersion = "2.52"
+    val roomVersion = "2.6.1"
     val junitVersion = "4.13.2"
     val mockkVersion = "1.13.12"
     val coroutinesTestVersion = "1.8.1"
     val coreTestingVersion = "2.2.0"
     val junitExtVersion = "1.2.1"
     val espressoCoreVersion = "3.6.1"
-    val fragmentTestingVersion = "1.8.1"
+    val fragmentTestingVersion = "1.8.3"
+
+    // Compose
+    val composeBom = platform("androidx.compose:compose-bom:$composeBomVersion")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+
+    // Material Design
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.material:material-icons-core")
+
+    // Preview Support
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // UI Tooling
+    debugImplementation("androidx.compose.ui:ui-tooling")
 
     implementation("androidx.core:core-ktx:$coreKtxVersion")
     implementation("androidx.appcompat:appcompat:$appCompatVersion")
@@ -76,9 +94,11 @@ dependencies {
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.5")
 
     // LiveData
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
+    implementation("androidx.compose.runtime:runtime-livedata:1.7.0")
 
     // Fragment
     implementation("androidx.fragment:fragment-ktx:$fragmentKtxVersion")
@@ -89,6 +109,7 @@ dependencies {
 
     // Activity
     implementation("androidx.activity:activity-ktx:$activityKtxVersion")
+    implementation("androidx.activity:activity-compose:1.9.2")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
