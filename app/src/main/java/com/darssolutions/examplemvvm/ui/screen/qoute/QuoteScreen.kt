@@ -40,7 +40,10 @@ import com.darssolutions.examplemvvm.ui.theme.AppTheme
 import com.darssolutions.examplemvvm.ui.viewmodel.QuoteViewModel
 
 @Composable
-fun QuoteScreen(viewModel: QuoteViewModel = viewModel()) {
+fun QuoteScreen(
+    modifier: Modifier = Modifier,
+    viewModel: QuoteViewModel = viewModel()
+) {
     val isLoading by viewModel.isLoading.observeAsState(false)
     val hasData by viewModel.hasData.observeAsState(false)
     var quote by rememberSaveable(stateSaver = QuoteItemSaver) { mutableStateOf(null) }
