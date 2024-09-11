@@ -1,6 +1,5 @@
-package com.darssolutions.examplemvvm.ui.viewmodel
+package com.darssolutions.examplemvvm.ui.screen.qoute
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.darssolutions.examplemvvm.domain.model.QuoteItem
@@ -30,11 +29,7 @@ class QuoteViewModel @Inject constructor(
     private val _quoteState = MutableStateFlow<QuoteState>(QuoteState.Loading)
     val quoteState: StateFlow<QuoteState> = _quoteState.asStateFlow()
 
-    init {
-        loadInitialQuote()
-    }
-
-    private fun loadInitialQuote() {
+    fun loadInitialQuote() {
         viewModelScope.launch {
             _quoteState.value = QuoteState.Loading
             try {
@@ -45,21 +40,33 @@ class QuoteViewModel @Inject constructor(
                     _quoteState.value = QuoteState.NoQuotes
                 }
             } catch (e: UnknownHostException) {
-                Log.e(TAG, "No internet connection!", e)
                 _quoteState.value = QuoteState.NoInternet
             } catch (e: Exception) {
-                Log.e(TAG, "Error fetching quotes", e)
                 _quoteState.value = QuoteState.Error
             }
         }
     }
 
+    /**
+     * Obtiene una cita aleatoria.
+     */
     fun randomQuote() {
-        loadInitialQuote()
-    }
-
-    companion object {
-        private const val TAG = "[QuoteViewModel]"
+        viewModelScope.launch {
+            _quoteState.value = QuoteState.Loading
+            try {
+                val result = getRandomQuoteUseCase()
+                if (result != null) {
+                    _quoteState.value = QuoteState.Success(result)
+                } else {
+                    //TODO: Si no hay citas disponibles, vuelve a cargar las citas desde la API.
+                    _quoteState.value = QuoteState.NoQuotes
+                }
+            } catch (e: UnknownHostException) {
+                _quoteState.value = QuoteState.NoInternet
+            } catch (e: Exception) {
+                _quoteState.value = QuoteState.Error
+            }
+        }
     }
 }
 

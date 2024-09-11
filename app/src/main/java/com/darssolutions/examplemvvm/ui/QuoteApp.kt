@@ -8,7 +8,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.darssolutions.examplemvvm.ui.screen.qoute.QuoteScreen
 import com.darssolutions.examplemvvm.ui.theme.AppTheme
-import com.darssolutions.examplemvvm.ui.viewmodel.QuoteViewModel
+import com.darssolutions.examplemvvm.ui.screen.qoute.QuoteViewModel
 
 @Composable
 fun QuoteApp(modifier: Modifier = Modifier) {

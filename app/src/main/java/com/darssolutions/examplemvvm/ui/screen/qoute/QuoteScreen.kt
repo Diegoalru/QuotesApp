@@ -40,8 +40,6 @@ import androidx.compose.ui.unit.sp
 import com.darssolutions.examplemvvm.R
 import com.darssolutions.examplemvvm.domain.model.QuoteItem
 import com.darssolutions.examplemvvm.ui.theme.AppTheme
-import com.darssolutions.examplemvvm.ui.viewmodel.QuoteState
-import com.darssolutions.examplemvvm.ui.viewmodel.QuoteViewModel
 
 @Composable
 fun QuoteScreen(
