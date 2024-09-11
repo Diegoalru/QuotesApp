@@ -2,50 +2,55 @@ package com.darssolutions.examplemvvm.ui.viewmodel
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.darssolutions.examplemvvm.data.repository.QuoteRepository
+import com.darssolutions.examplemvvm.domain.model.QuoteItem
 import com.darssolutions.examplemvvm.domain.usecases.GetQuotesUseCase
 import com.darssolutions.examplemvvm.domain.usecases.GetRandomQuoteUseCase
-import com.darssolutions.examplemvvm.domain.model.QuoteItem
+import com.darssolutions.examplemvvm.ui.screen.qoute.QuoteState
+import com.darssolutions.examplemvvm.ui.screen.qoute.QuoteViewModel
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.impl.annotations.RelaxedMockK
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import java.net.UnknownHostException
 
 @ExperimentalCoroutinesApi
 class QuoteViewModelTest {
 
     @RelaxedMockK
     private lateinit var getQuotesUseCase: GetQuotesUseCase
-    @RelaxedMockK
-    private lateinit var quoteRepository: QuoteRepository
+
     @RelaxedMockK
     private lateinit var getRandomQuoteUseCase: GetRandomQuoteUseCase
+
+    @RelaxedMockK
+    private lateinit var quoteRepository: QuoteRepository
+
+    @RelaxedMockK
     private lateinit var quoteViewModel: QuoteViewModel
 
-    /**
-     * Permite ejecutar las tareas en el hilo principal.
-     */
     @get:Rule
     var rule: InstantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Before
     fun setUp() {
+        Dispatchers.setMain(StandardTestDispatcher())
         MockKAnnotations.init(this)
         getQuotesUseCase = GetQuotesUseCase(quoteRepository)
+        getRandomQuoteUseCase = GetRandomQuoteUseCase(quoteRepository)
         quoteViewModel = QuoteViewModel(getQuotesUseCase, getRandomQuoteUseCase)
-        Dispatchers.setMain(Dispatchers.Unconfined)
     }
 
     @After
@@ -53,74 +58,76 @@ class QuoteViewModelTest {
         Dispatchers.resetMain()
     }
 
+    /**
+     * Initial quote tests
+     */
+
     @Test
-    fun `when onCreate is called and there is no internet connection`() = runTest {
-        // When
+    fun `when initial quote is called and quotes are available`() = runTest {
+        val quote = QuoteItem("quote", "author")
+        coEvery { quoteRepository.getQuotesFromAPI() } returns listOf(quote)
+
+        quoteViewModel.loadInitialQuote()
+        advanceUntilIdle()
+
+        assertTrue(quoteViewModel.quoteState.value is QuoteState.Success)
+        assertEquals(quote, (quoteViewModel.quoteState.value as QuoteState.Success).quote)
+    }
+
+    @Test
+    fun `when initial quote is called and there is no quotes available`() = runTest {
         coEvery { quoteRepository.getQuotesFromAPI() } returns emptyList()
+        coEvery { quoteRepository.getQuotesFromDB() } returns emptyList()
 
-        // When
-        quoteViewModel.onCreate()
+        quoteViewModel.loadInitialQuote()
+        advanceUntilIdle()
 
-        // Then
         coVerify(exactly = 1) { quoteRepository.getQuotesFromDB() }
+        assertTrue(quoteViewModel.quoteState.value is QuoteState.NoQuotes)
     }
 
     @Test
-    fun `when viewModel is created and set the quote`() = runTest {
-        // Given
-        val quoteList = listOf(QuoteItem("quote", "author"))
-        coEvery { getQuotesUseCase() } returns quoteList
+    fun `when loadInitialQuote is called and there is no internet connection`() = runTest {
+        coEvery { getQuotesUseCase() } throws UnknownHostException()
 
-        // When
-        quoteViewModel.onCreate()
+        quoteViewModel.loadInitialQuote()
+        advanceUntilIdle()
 
-        // Then
-        assertEquals(quoteList.first(), quoteViewModel.quote.value)
+        assertTrue(quoteViewModel.quoteState.value is QuoteState.NoInternet)
     }
 
     @Test
-    fun `when randomQuote is called and there is no internet connection`() = runTest {
-        // Given
-        coEvery { getRandomQuoteUseCase() } returns null
+    fun `when loadInitialQuote is called and an unknown error occurs`() = runTest {
+        coEvery { getQuotesUseCase() } throws Exception()
 
-        // When
-        quoteViewModel.randomQuote()
+        quoteViewModel.loadInitialQuote()
+        advanceUntilIdle()
 
-        // Then
-        assertNull(quoteViewModel.quote.value)
-        quoteViewModel.hasData.value?.let { assertFalse(it) }
-        quoteViewModel.isLoading.value?.let { assertFalse(it) }
+        assertTrue(quoteViewModel.quoteState.value is QuoteState.Error)
     }
 
+    /**
+     * Random quotes tests
+     */
     @Test
-    fun `when randomQuote is called and change the quote`() = runTest {
-        // Given
+    fun `when randomQuote is called and quotes are available`() = runTest {
         val quote = QuoteItem("quote", "author")
-        coEvery { getRandomQuoteUseCase() } returns quote
+        coEvery { quoteRepository.getQuotesFromDB() } returns listOf(quote)
 
-        // When
         quoteViewModel.randomQuote()
+        advanceUntilIdle()
 
-        // Then
-        assertEquals(quote, quoteViewModel.quote.value)
-        quoteViewModel.isLoading.value?.let { assertFalse(it) }
-        quoteViewModel.hasData.value?.let { assertTrue(it) }
+        assertTrue(quoteViewModel.quoteState.value is QuoteState.Success)
+        assertEquals(quote, (quoteViewModel.quoteState.value as QuoteState.Success).quote)
     }
 
     @Test
-    fun `if randomQuoteUseCase return null keep the last value`() = runTest {
-        // Given
-        val quote = QuoteItem("quote", "author")
-        coEvery { getRandomQuoteUseCase() } returns quote
+    fun `when randomQuote is called and there is no quotes available`() = runTest {
+        coEvery { quoteRepository.getQuotesFromDB() } returns emptyList()
 
-        // When
         quoteViewModel.randomQuote()
-        coEvery { getRandomQuoteUseCase() } returns null
-        quoteViewModel.randomQuote()
+        advanceUntilIdle()
 
-        // Then
-        assertEquals(quote, quoteViewModel.quote.value)
-        quoteViewModel.isLoading.value?.let { assertFalse(it) }
-        quoteViewModel.hasData.value?.let { assertTrue(it) }
+        assertTrue(quoteViewModel.quoteState.value is QuoteState.NoQuotes)
     }
 }
