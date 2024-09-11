@@ -43,7 +43,6 @@ android {
         jvmTarget = "17"
     }
     buildFeatures {
-        viewBinding = true
         compose = true
     }
 }
@@ -52,15 +51,10 @@ dependencies {
 
     val composeBomVersion = "2024.09.00"
     val coreKtxVersion = "1.13.1"
-    val appCompatVersion = "1.7.0"
-    val materialVersion = "1.12.0"
-    val constraintLayoutVersion = "2.1.4"
-    val lifecycleVersion = "2.8.5"
-    val fragmentKtxVersion = "1.8.3"
-    val navigationVersion = "2.8.0"
-    val activityKtxVersion = "1.9.2"
     val retrofitVersion = "2.11.0"
     val coroutinesVersion = "1.8.1"
+    val lifecycleVersion = "2.8.5"
+    val activityVersion = "1.9.2"
     val hiltVersion = "2.52"
     val roomVersion = "2.6.1"
     val junitVersion = "4.13.2"
@@ -69,7 +63,6 @@ dependencies {
     val coreTestingVersion = "2.2.0"
     val junitExtVersion = "1.2.1"
     val espressoCoreVersion = "3.6.1"
-    val fragmentTestingVersion = "1.8.3"
 
     // Compose
     val composeBom = platform("androidx.compose:compose-bom:$composeBomVersion")
@@ -88,28 +81,12 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
 
     implementation("androidx.core:core-ktx:$coreKtxVersion")
-    implementation("androidx.appcompat:appcompat:$appCompatVersion")
-    implementation("com.google.android.material:material:$materialVersion")
-    implementation("androidx.constraintlayout:constraintlayout:$constraintLayoutVersion")
 
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.5")
-
-    // LiveData
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
-    implementation("androidx.compose.runtime:runtime-livedata:1.7.0")
-
-    // Fragment
-    implementation("androidx.fragment:fragment-ktx:$fragmentKtxVersion")
-
-    // Navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:$navigationVersion")
-    implementation("androidx.navigation:navigation-ui-ktx:$navigationVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleVersion")
 
     // Activity
-    implementation("androidx.activity:activity-ktx:$activityKtxVersion")
-    implementation("androidx.activity:activity-compose:1.9.2")
+    implementation("androidx.activity:activity-compose:$activityVersion")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
@@ -134,5 +111,4 @@ dependencies {
 
     androidTestImplementation("androidx.test.ext:junit:$junitExtVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoCoreVersion")
-    androidTestImplementation("androidx.fragment:fragment-testing:$fragmentTestingVersion")
 }
