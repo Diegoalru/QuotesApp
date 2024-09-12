@@ -32,23 +32,24 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            signingConfig = signingConfigs.getByName("debug")
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
         jvmTarget = "17"
     }
+
     buildFeatures {
         compose = true
     }
 }
 
 dependencies {
-
     val composeBomVersion = "2024.09.00"
     val coreKtxVersion = "1.13.1"
     val retrofitVersion = "2.11.0"
@@ -63,6 +64,9 @@ dependencies {
     val coreTestingVersion = "2.2.0"
     val junitExtVersion = "1.2.1"
     val espressoCoreVersion = "3.6.1"
+    val material3Version = "1.3.0"
+    val materialIconsVersion = "1.7.1"
+    val composeUiVersion = "1.7.1"
 
     // Compose
     val composeBom = platform("androidx.compose:compose-bom:$composeBomVersion")
@@ -70,16 +74,14 @@ dependencies {
     androidTestImplementation(composeBom)
 
     // Material Design
-    implementation("androidx.compose.material3:material3")
-    implementation("androidx.compose.material:material-icons-core")
+    implementation("androidx.compose.material3:material3:$material3Version")
+    implementation("androidx.compose.material:material-icons-core:$materialIconsVersion")
 
-    // Preview Support
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    debugImplementation("androidx.compose.ui:ui-tooling")
+    // UI Preview y Tooling
+    implementation("androidx.compose.ui:ui-tooling-preview:$composeUiVersion")
+    debugImplementation("androidx.compose.ui:ui-tooling:$composeUiVersion")
 
-    // UI Tooling
-    debugImplementation("androidx.compose.ui:ui-tooling")
-
+    // Core Android KTX
     implementation("androidx.core:core-ktx:$coreKtxVersion")
 
     // ViewModel
@@ -104,11 +106,13 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
     ksp("androidx.room:room-compiler:$roomVersion")
 
+    // Unit testing
     testImplementation("junit:junit:$junitVersion")
     testImplementation("io.mockk:mockk:$mockkVersion")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesTestVersion")
     testImplementation("androidx.arch.core:core-testing:$coreTestingVersion")
 
+    // Android testing
     androidTestImplementation("androidx.test.ext:junit:$junitExtVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$espressoCoreVersion")
 }
