@@ -98,7 +98,8 @@ fun NoQuoteFound(
             Icon(
                 imageVector = Icons.Filled.Warning,
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.align(Alignment.CenterVertically)
             )
             Spacer(modifier = Modifier.padding(8.dp))
             Text(
@@ -108,30 +109,42 @@ fun NoQuoteFound(
                 color = MaterialTheme.colorScheme.primary
             )
         }
-        Spacer(modifier = Modifier.padding(16.dp))
-        Button(
-            onClick = onRequestQuote,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color.Transparent,
-                contentColor = MaterialTheme.colorScheme.primary
-            ),
-            border = BorderStroke(1.dp, MaterialTheme.colorScheme.primary),
-            modifier = Modifier.padding(8.dp)
-        ) {
-            Icon(
-                imageVector = Icons.Filled.Refresh,
-                contentDescription = stringResource(R.string.refresh),
-                tint = MaterialTheme.colorScheme.primary
+        Spacer(modifier = Modifier.size(16.dp))
+        RefreshButton(onRequestQuote)
+    }
+}
+
+@Composable
+fun RefreshButton(onRequestQuote: () -> Unit, modifier: Modifier = Modifier) {
+    Button(
+        onClick = onRequestQuote,
+        border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color.Transparent,
+            contentColor = MaterialTheme.colorScheme.primary
+        ),
+        modifier = modifier
+            .padding(8.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Filled.Refresh,
+            contentDescription = stringResource(R.string.refresh),
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.align(Alignment.CenterVertically)
+        )
+        Spacer(
+            modifier = Modifier.size(ButtonDefaults.IconSpacing)
+        )
+        Text(
+            text = stringResource(R.string.refresh),
+            color = MaterialTheme.colorScheme.primary,
+            style = TextStyle(
+                fontSize = 16.sp,
+                fontFamily = FontFamily.SansSerif,
+                textAlign = TextAlign.Center,
+                lineHeight = 0.sp
             )
-            Spacer(
-                modifier = Modifier.size(ButtonDefaults.IconSpacing)
-            )
-            Text(
-                text = stringResource(R.string.refresh),
-                fontSize = 24.sp,
-                color = MaterialTheme.colorScheme.primary
-            )
-        }
+        )
     }
 }
 
@@ -187,5 +200,14 @@ fun NoQuoteFoundPreview() {
                 modifier = Modifier.align(Alignment.Center)
             )
         }
+    }
+}
+
+@Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+fun RefreshButtonPreview() {
+    AppTheme {
+        RefreshButton(onRequestQuote = {})
     }
 }
