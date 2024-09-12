@@ -16,9 +16,6 @@ fun QuoteApp(modifier: Modifier = Modifier) {
 
     AppTheme {
         Scaffold { innerPadding ->
-            // Cargar las citas desde la API al inicio
-            viewModel.loadInitialQuote()
-
             QuoteScreen(
                 viewModel = viewModel,
                 modifier = modifier.padding(innerPadding),

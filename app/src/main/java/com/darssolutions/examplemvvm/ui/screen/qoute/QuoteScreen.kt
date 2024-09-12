@@ -1,7 +1,13 @@
 package com.darssolutions.examplemvvm.ui.screen.qoute
 
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.keyframes
+import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -10,6 +16,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -18,11 +25,11 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -49,6 +56,10 @@ fun QuoteScreen(
     val quoteState by viewModel.quoteState.collectAsState()
     val interactionSource = remember { MutableInteractionSource() }
 
+    LaunchedEffect(Unit) {
+        viewModel.loadInitialQuote()
+    }
+
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -60,8 +71,10 @@ fun QuoteScreen(
             )
     ) {
         when (quoteState) {
-            is QuoteState.Loading -> CircularProgressIndicator(Modifier.align(Alignment.Center))
+            is QuoteState.Loading -> LoadingRow()
+
             is QuoteState.Success -> Quote((quoteState as QuoteState.Success).quote)
+
             is QuoteState.NoQuotes -> NoQuoteFound(
                 stringResource(R.string.no_quotes_found),
                 viewModel::randomQuote,
@@ -84,7 +97,50 @@ fun QuoteScreen(
 }
 
 @Composable
-fun NoQuoteFound(
+private fun LoadingRow() {
+    val infiniteTransition = rememberInfiniteTransition(label = "infinite loading")
+    val alpha by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = keyframes {
+                durationMillis = 1000
+                0.7f at 500
+            },
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "alpha"
+    )
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(32.dp)
+                .background(
+                    MaterialTheme.colorScheme.primary.copy(alpha = alpha)
+                )
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(32.dp)
+                .background(
+                    MaterialTheme.colorScheme.primary.copy(alpha = alpha)
+                )
+        )
+    }
+}
+
+@Composable
+private fun NoQuoteFound(
     errorMessage: String,
     onRequestQuote: () -> Unit,
     modifier: Modifier = Modifier
@@ -115,7 +171,7 @@ fun NoQuoteFound(
 }
 
 @Composable
-fun RefreshButton(onRequestQuote: () -> Unit, modifier: Modifier = Modifier) {
+private fun RefreshButton(onRequestQuote: () -> Unit, modifier: Modifier = Modifier) {
     Button(
         onClick = onRequestQuote,
         border = BorderStroke(2.dp, MaterialTheme.colorScheme.primary),
@@ -149,7 +205,7 @@ fun RefreshButton(onRequestQuote: () -> Unit, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun Quote(quote: QuoteItem) {
+private fun Quote(quote: QuoteItem) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -164,14 +220,14 @@ fun Quote(quote: QuoteItem) {
 }
 
 @Composable
-fun QuoteText(text: String, fontSize: TextUnit, modifier: Modifier = Modifier) {
+private fun QuoteText(text: String, fontSize: TextUnit, modifier: Modifier = Modifier) {
     Text(
         text = text,
         style = TextStyle(
             fontSize = fontSize,
-            fontFamily = FontFamily.SansSerif,
+            fontFamily = FontFamily.Cursive,
             textAlign = TextAlign.Center,
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primary,
         ),
         modifier = modifier.padding(16.dp)
     )
@@ -180,7 +236,16 @@ fun QuoteText(text: String, fontSize: TextUnit, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun QuoteScreenPreview() {
+private fun QuoteScreenPreviewWhileLoading() {
+    AppTheme {
+        LoadingRow()
+    }
+}
+
+@Preview(showBackground = true)
+@Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
+@Composable
+private fun QuoteScreenPreview() {
     val quote = QuoteItem("This is a quote", "This is an author")
 
     AppTheme {
@@ -191,7 +256,7 @@ fun QuoteScreenPreview() {
 @Preview(showBackground = true, heightDp = 400, widthDp = 320)
 @Preview(showBackground = true, heightDp = 400, widthDp = 320, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun NoQuoteFoundPreview() {
+private fun NoQuoteFoundPreview() {
     AppTheme {
         Box {
             NoQuoteFound(
@@ -206,7 +271,7 @@ fun NoQuoteFoundPreview() {
 @Preview(showBackground = true)
 @Preview(showBackground = true, uiMode = UI_MODE_NIGHT_YES)
 @Composable
-fun RefreshButtonPreview() {
+private fun RefreshButtonPreview() {
     AppTheme {
         RefreshButton(onRequestQuote = {})
     }

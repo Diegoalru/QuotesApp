@@ -6,6 +6,7 @@ import com.darssolutions.examplemvvm.domain.model.QuoteItem
 import com.darssolutions.examplemvvm.domain.usecases.GetQuotesUseCase
 import com.darssolutions.examplemvvm.domain.usecases.GetRandomQuoteUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
